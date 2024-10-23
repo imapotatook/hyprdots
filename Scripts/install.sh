@@ -104,9 +104,14 @@ EOF
         cat /usr/lib/modules/*/pkgbase | while read krnl; do
             echo "${krnl}-headers" >> "${scrDir}/install_pkg.lst"
         done
-        nvidia_detect --drivers >> "${scrDir}/install_pkg.lst"
+        read -r -p "Do you want to install nvidia drivers? [y/N] " nvidia_response
+        case "$nvidia_response" in
+                [yY][eE][sS]|[yY])
+                        nvidia_detect --drivers >> "${scrDir}/install_pkg.lst"
+                        ;;
+        esac
     fi
-
+    
     nvidia_detect --verbose
 
     #----------------#
